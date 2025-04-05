@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: password-vault-api
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SECRET_KEY
+        value: change_me_in_production
+      - key: DATABASE_URL
+        value: YOUR_POSTGRES_URL_HERE
