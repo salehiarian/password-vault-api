@@ -68,7 +68,7 @@ def get_db():
 
 
 @router.post("/refresh-token")
-@limiter.limit("20/minute")
+@limiter.limit("200/minute")
 def refresh_token(request: Request, token: dict = Depends(get_refresh_token), db: Session = Depends(get_db)):
     try:
         if token.get("type") != "refresh" or "sub" not in token:
@@ -93,7 +93,7 @@ def refresh_token(request: Request, token: dict = Depends(get_refresh_token), db
 
 
 @router.post("/register", summary="Register a new user", description=REGISTER_DESCRIPTION, response_model=Token)
-@limiter.limit("10/minute")
+@limiter.limit("100/minute")
 def register(request: Request, user: UserCreate, db: Session = Depends(get_db)):
     registration = auth_service.register_user(db, user.username, user.password)
     if not registration:
@@ -106,7 +106,7 @@ def register(request: Request, user: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.post("/login", description=LOGIN_DESCRIPTION, response_model=Token)
-@limiter.limit("10/minute")
+@limiter.limit("100/minute")
 def login(request: Request, user: UserCreate, db: Session = Depends(get_db)):
     tokens = auth_service.authenticate_user(db, user.username, user.password)
     if not tokens:
@@ -115,7 +115,7 @@ def login(request: Request, user: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.post("/vault/add", description=ADD_PASSWORD_DESCRIPTION, response_model=PasswordAddResponse)
-@limiter.limit("15/minute")
+@limiter.limit("150/minute")
 def add_password(request: Request, entry: PasswordCreate, token: dict = Depends(get_current_user_token), db: Session = Depends(get_db)):
     username = token["sub"]
     user = auth_service.user_repo.get_user_by_username(db, username)
@@ -134,7 +134,7 @@ def add_password(request: Request, entry: PasswordCreate, token: dict = Depends(
 
 
 @router.get("/vault/", description=GET_PASSWORD_DESCRIPTION, response_model=PasswordOut)
-@limiter.limit("10/minute")
+@limiter.limit("100/minute")
 def get_password(request: Request, site_name: str = Depends(validate_query_site_name), site_username: str = Depends(validate_query_site_username), token: dict = Depends(get_current_user_token), db: Session = Depends(get_db)):
     username = token["sub"]
     user = auth_service.user_repo.get_user_by_username(db, username)

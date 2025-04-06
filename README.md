@@ -30,3 +30,16 @@ A secure, RESTful API built with FastAPI for managing and encrypting personal cr
 - Passwords stored encrypted with AES-256 (Fernet)
 - Access protected via JWT
 - Rate-limiting protects against brute force attacks
+
+## 🌐 API URL
+You can access and test the live Password Vault API here:
+
+- 🔗 Base URL:
+https://password-vault-api-los9.onrender.com
+
+- 📘 Swagger UI:
+https://password-vault-api-los9.onrender.com/password-vault
+
+
+- ✅ Fully deployed on Render with HTTPS
+- 🔐 Secure endpoints using JWT authentication and AES encryption
