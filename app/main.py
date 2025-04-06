@@ -22,9 +22,13 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
-
 app.include_router(api_router)
+
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the Password Vault API 👋"}
+
 
