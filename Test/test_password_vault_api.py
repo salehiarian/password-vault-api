@@ -3,15 +3,15 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.db.database import Base, engine, SessionLocal
 
-# --- Setup Test Environment ---
+
 @pytest.fixture(scope="module")
 def test_client():
-    # Create the test database schema
+
     Base.metadata.create_all(bind=engine)
     client = TestClient(app)
     yield client
-    # Drop all tables after tests
     Base.metadata.drop_all(bind=engine)
+
 
 @pytest.fixture(scope="function")
 def db_session():
@@ -21,7 +21,7 @@ def db_session():
     finally:
         db.close()
 
-# --- Shared Values ---
+
 TEST_USER = {"username": "testuser", "password": "StrongP@ssw0rd12345"}
 VAULT_ENTRY = {
     "site_name": "Gmail",
@@ -29,12 +29,14 @@ VAULT_ENTRY = {
     "site_password": "SiteP@ss123456789009"
 }
 
+
 HTTP_422_UNPROCESSABLE_ENTITY = 422
 HTTP_401_UNAUTHORIZED = 401
 HTTP_200_OK = 200
 HTTP_403_FORBIDDEN = 403
 HTTP_404_NOT_FOUND = 404
 HTTP_409_CONFLICT = 409
+
 
 TEST_SHORT_USERNAME="abcd"
 TEST_VALID_WRONG_PASSWORD="WrongWrong123456!"
@@ -50,7 +52,6 @@ TEST_INJECTED_INPUT_SINGLE_QUOTE="WrongWrong@123456\'"
 TEST_INJECTED_INPUT_HTML_TAG="WrongWrong@123456<>"
 
 
-# --- Helper ---
 def get_auth_tokens(client):
     client.post("/register", json=TEST_USER)
 
@@ -60,9 +61,6 @@ def get_auth_tokens(client):
     assert "access_token" in tokens, "access_token not in response"
     assert "refresh_token" in tokens, "refresh_token not in response"
     return tokens["access_token"], tokens["refresh_token"]
-
-# --- Tests ---
-
 
 # ----------------
 # --- REGISTER ---
