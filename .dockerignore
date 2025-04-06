@@ -1,0 +1,8 @@
+.git
+.env
+__pycache__/
+node_modules/
+tests/
+Dockerfile
+README.md
+
